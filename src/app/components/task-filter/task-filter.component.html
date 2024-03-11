@@ -1,0 +1,70 @@
+  <button mat-raised-button color="primary" class="filter-btn" [matMenuTriggerFor]="menu"
+          [matBadge]="(applyedFiltersCount$ | async)" matBadgeColor="warn" matBadgeSize="small"
+          [matBadgeHidden]="!(applyedFiltersCount$ | async)">
+    Filter
+    <mat-icon>filter_list</mat-icon>
+  </button>
+
+<mat-menu #menu="matMenu">
+  <div class="menu-wrapper" #menuWrapper>
+    <div class="menu" (click)="$event.stopPropagation()">
+      <h2>Filter:</h2>
+      <form [formGroup]="filterForm" (ngSubmit)="onFilterApply(); menuWrapper.click()">
+        <!-- Deadline  -->
+        <div class="form-field-wrapper">
+          <mat-form-field appearance="outline">
+            <mat-label>Deadline</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="deadline">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          @if (filterForm.get('deadline').value) {
+            <button mat-mini-fab color="primary" title="Clear Deadline" class="clear-btn"
+                    (click)="filterForm.get('deadline').patchValue(null)">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </div>
+        <!-- Status -->
+        <div class="form-field-wrapper">
+          <mat-form-field appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+              @for (status of taskStatusOptions; track status) {
+                <mat-option [value]="status">{{ status }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          @if (filterForm.get('status').value) {
+            <button mat-mini-fab color="primary" title="Clear Status" class="clear-btn"
+                    (click)="filterForm.get('status').patchValue(null)">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </div>
+        <!-- Assignee -->
+        <div class="form-field-wrapper">
+          <mat-form-field appearance="outline">
+            <mat-label>Assignee</mat-label>
+            <mat-select formControlName="assignee">
+              @for (user of (users$ | async); track user) {
+                <mat-option [value]="user">{{ user | fullname }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          @if (filterForm.get('assignee').value) {
+            <button mat-mini-fab color="primary" title="Clear Assignee" class="clear-btn"
+                    (click)="filterForm.get('assignee').patchValue(null)">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </div>
+        <button mat-raised-button color="primary" type="submit">
+          Apply
+        </button>
+      </form>
+    </div>
+  </div>
+
+</mat-menu>
+

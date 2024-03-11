@@ -1,0 +1,14 @@
+<!-- Loading  -->
+@if(taskActionLoading$ | async) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
+<h2 mat-dialog-title>Delete Task</h2>
+<mat-dialog-content>
+  Do you want to delete the task <strong>"{{ data.task.title }}"</strong>?
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button color="primary" [disabled]="(taskActionLoading$ | async)" (click)="closeDialog()">Cancle</button>
+  <button mat-raised-button color="warn" [disabled]="(taskActionLoading$ | async)" (click)="deleteTask()">
+    Delete
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,41 @@
+<section id="todos">
+  <!-- First Column  -->
+  <div class="col">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <h1>Todo List</h1>
+        <button mat-raised-button color="primary" class="add-btn" (click)="openAddTaskDialog()">
+          Add Task
+          <mat-icon>add_circle_outline</mat-icon>
+        </button>
+      </mat-card-header>
+      <div class="panel-container">
+        <!-- Tasks Filter  -->
+        <app-task-filter></app-task-filter>
+        <!-- Tasks Sort  -->
+        <app-task-sort></app-task-sort>
+      </div>
+      <mat-card-content>
+        <div class="example-container">
+          <div class="example-list">
+            @for (task of (taskList$ | async |
+                          taskFilter:(filter$ | async) |
+                          taskSort:(sort$ | async) ); track task;) {
+              <a class="example-box" [routerLink]="'/tasks/' + task.id" routerLinkActive="active-link">
+                <span class="text" [title]="task.title">{{ task.title }}</span>
+                <app-user-avatar [user]="task.assignee"></app-user-avatar>
+              </a>
+            } @empty {
+              <h2 class="no-tasks-text">No Tasks</h2>
+            }
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+    <!-- Second Column  -->
+  <div class="col">
+    <router-outlet></router-outlet>
+  </div>
+</section>
+

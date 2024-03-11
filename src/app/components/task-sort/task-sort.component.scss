@@ -1,0 +1,27 @@
+:host {
+  display: inline-block;
+}
+
+.menu {
+  padding: 0 10px;
+}
+
+form {
+  .form-field-wrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  mat-form-field {
+    width: 100%;
+  }
+  button[type=submit] {
+    padding: 25px;
+    width: 100%;
+  }
+
+  .clear-btn {
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+}

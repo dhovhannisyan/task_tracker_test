@@ -1,0 +1,39 @@
+@import '../../../assets/scss/status-colors.scss';
+
+mat-card {
+  height: 400px;
+
+  mat-card-content {
+
+  }
+
+  mat-card-actions {
+    padding: 20px;
+    margin-top: auto;
+    .delete-btn {
+      margin-right: 20px;
+    }
+  }
+}
+
+.status-budge {
+  padding: 6px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.task-content {
+  font-size: 17px;
+  .task-prop {
+    margin-bottom: 20px;
+    .prop-name {
+      font-size: 17px;
+      font-weight: bold;
+      color: #666;
+    }
+    .prop-value {
+      margin-left: 10px;
+      color: #333;
+    }
+  }
+}

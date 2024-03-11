@@ -1,0 +1,85 @@
+<!-- Loading  -->
+@if(taskActionLoading$ | async) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
+<h2 mat-dialog-title>{{ data.action }} Task</h2>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <!-- Title -->
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title">
+      @if (form.get('title').touched && form.get('title').hasError('required')) {
+        <mat-error>Required field</mat-error>
+      }
+    </mat-form-field>
+    <div class="form-field-wrapper">
+      <!-- Priority -->
+      <mat-form-field appearance="outline">
+        <mat-label>Priority</mat-label>
+        <mat-select formControlName="priority">
+          @for (priority of taskPriorityOptions; track priority) {
+            <mat-option [value]="priority">{{ priority }}</mat-option>
+          }
+        </mat-select>
+        @if (form.get('priority').touched && form.get('priority').hasError('required')) {
+          <mat-error>Required field</mat-error>
+        }
+      </mat-form-field>
+      <!-- Status -->
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          @for (status of taskStatusOptions; track status) {
+            <mat-option [value]="status">{{ status }}</mat-option>
+          }
+        </mat-select>
+        @if (form.get('status').touched && form.get('status').hasError('required')) {
+          <mat-error>Required field</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <div class="form-field-wrapper">
+      <!-- Deadline -->
+      <mat-form-field appearance="outline">
+        <mat-label>Deadline</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="deadline">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        @if (form.get('deadline').touched && form.get('deadline').hasError('required')) {
+          <mat-error>Required field</mat-error>
+        }
+      </mat-form-field>
+      <!-- Assignee -->
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Assignee</mat-label>
+        <input type="text" matInput formControlName="assignee" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayUsersAutocompleteFn">
+          @for (user of (filteredUsers$ | async); track user) {
+            <mat-option [value]="user">{{ user | fullname }}</mat-option>
+          }
+        </mat-autocomplete>
+        @if (form.get('assignee').touched && form.get('assignee').hasError('required')) {
+          <mat-error>Required field</mat-error>
+        }
+        @if (form.get('assignee').touched && form.get('assignee').hasError('notUser')) {
+          <mat-error>User not found</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <!-- Description -->
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput rows="5" formControlName="description"></textarea>
+      @if (form.get('description').touched && form.get('description').hasError('required')) {
+        <mat-error>Required field</mat-error>
+      }
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button color="primary" [disabled]="(taskActionLoading$ | async)" (click)="closeDialog()">Cancle</button>
+  <button mat-raised-button color="primary" [disabled]="(taskActionLoading$ | async)" (click)="onSubmit()">
+    Save
+  </button>
+</mat-dialog-actions>

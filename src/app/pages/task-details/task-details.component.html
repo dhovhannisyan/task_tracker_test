@@ -1,0 +1,87 @@
+<mat-card class="example-card">
+  @if(taskLoading$ | async) {
+    <!-- Loader -->
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+   } @else if(selectedTask$  | async) {
+    <ng-container>
+      <mat-card-header>
+        <h1>Task Details</h1>
+      </mat-card-header>
+      <mat-card-content>
+
+        <div class="task-content">
+          <!-- Title -->
+          <div class="task-prop">
+            <span class="prop-name">
+              Title:
+            </span>
+            <span class="prop-value">
+              {{ (selectedTask$ | async).title }}
+            </span>
+          </div>
+          <!-- Description -->
+          <div class="task-prop">
+            <span class="prop-name">
+              Description:
+            </span>
+            <span class="prop-value">
+              {{ (selectedTask$ | async).description }}
+            </span>
+          </div>
+           <!-- Status -->
+           <div class="task-prop">
+            <span class="prop-name">
+              Status:
+            </span>
+            <span class="prop-value">
+              <span class="status-budge" [ngClass]="selectedTask$ | async | taskStatusStyles">
+                {{ (selectedTask$ | async).status }}
+              </span>
+            </span>
+          </div>
+          <!-- Priority -->
+          <div class="task-prop">
+            <span class="prop-name">
+              Priority:
+            </span>
+            <span class="prop-value">
+              <span class="status-budge bg-warn" [ngClass]="selectedTask$ | async | taskPriorityStyles">
+                {{ (selectedTask$ | async).priority }}
+              </span>
+            </span>
+          </div>
+          <!-- Deadline -->
+          <div class="task-prop">
+            <span class="prop-name">
+              Deadline:
+            </span>
+            <span class="prop-value">
+              {{ (selectedTask$ | async).deadline | date:'dd.MM.yyyy' }}
+            </span>
+          </div>
+          <!-- Assignee -->
+          <div class="task-prop">
+            <span class="prop-name">
+              Assignee:
+            </span>
+            <span class="prop-value">
+              {{ (selectedTask$ | async).assignee | fullname }}
+            </span>
+          </div>
+        </div>
+
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-raised-button color="warn" class="delete-btn" (click)="openDeleteTaskDialog()">
+          Delete
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+        <button mat-raised-button color="primary" class="edit-btn" (click)="openEditTaskDialog()">
+          Edit
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-card-actions>
+    </ng-container>
+  }
+
+</mat-card>

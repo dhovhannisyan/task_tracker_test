@@ -1,0 +1,13 @@
+mat-card {
+  height: 400px;
+
+  mat-card-content {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .no-tasks-text {
+      color: #999;
+    }
+  }
+}
